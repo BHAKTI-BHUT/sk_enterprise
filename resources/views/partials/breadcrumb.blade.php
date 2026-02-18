@@ -11,4 +11,17 @@
         </nav>
     </div>
 
+   @php
+        $buttonTitle = trim(View::yieldContent('buttonTitle'));
+        $buttonLink = trim(View::yieldContent('buttonLink'));
+    @endphp
+
+    @if ($buttonTitle !== '' && $buttonLink !== '')
+        <div class="d-flex my-xl-auto align-items-center flex-shrink-0">
+            <a href="{{ $buttonLink }}" class="btn btn-sm btn-primary">
+                {!! $buttonTitle !!}
+            </a>
+        </div>
+    @endif
+
 </div>

@@ -4,6 +4,8 @@
 
 @section('sub-title', 'User Manage')
 @section('pagetitle', 'Users')
+@section('buttonTitle', '+ New User')
+@section('buttonLink', route('user.create'))
 
 @section('content')
 
@@ -56,18 +58,6 @@
                     searchable: false
                 }
             ]);
-
-            // Set head label title and add button
-            var headLabel = $('#user-table').closest('.card').find('.head-label');
-            if (headLabel.length) {
-                headLabel.html('<h5 class="card-title text-nowrap mb-0">User List</h5>');
-            }
-            var addBtnContainer = $('#user-table').closest('.card').find('.add_button');
-            if (addBtnContainer.length) {
-                addBtnContainer.html(
-                    '<a href="{{ route('user.create') }}" class="btn btn-primary">Add User</a>'
-                );
-            }
 
             // Delete User
             $(document).on('submit', '.delete-form', function(e) {

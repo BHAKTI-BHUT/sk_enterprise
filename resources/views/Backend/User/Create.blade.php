@@ -40,8 +40,8 @@
                             <div class="col-md-6">
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" class="form-control" id="password" name="password"
-                                    placeholder="Password" required>
-                                <div class="invalid-feedback">Please enter a password.</div>
+                                    placeholder="Password" minlength="6" required>
+                                <div class="invalid-feedback">Password must be at least 6 characters.</div>
                             </div>
                             <div class="col-md-6">
                                 <label for="roles" class="form-label">Roles</label>
@@ -76,6 +76,10 @@
             // Form Submission
             $('#addUserForm').on('submit', function(e) {
                 e.preventDefault();
+
+                // reset previous errors
+                $('#addUserForm .is-invalid').removeClass('is-invalid');
+
                 if (this.checkValidity()) {
                     $.ajax({
                         url: '{{ route('user.store') }}',
@@ -88,10 +92,14 @@
                             }, 1000);
                         },
                         error: function(xhr) {
-                            if (xhr.responseJSON && xhr.responseJSON.errors) {
+                            if (xhr.status === 422 && xhr.responseJSON && xhr.responseJSON.errors) {
                                 var errors = xhr.responseJSON.errors;
                                 Object.keys(errors).forEach(function(key) {
-                                    showToast(errors[key][0], 'danger');
+                                    var field = $('#addUserForm').find('[name="' + key + '"]');
+                                    if (field.length) {
+                                        field.addClass('is-invalid');
+                                        field.closest('.col-md-6, .mb-3').find('.invalid-feedback').text(errors[key][0]);
+                                    }
                                 });
                             } else {
                                 showToast('An error occurred.', 'danger');

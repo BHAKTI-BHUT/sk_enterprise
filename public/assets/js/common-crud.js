@@ -84,6 +84,18 @@ $(document).ready(function () {
             }
         });
 
+        // Re-initialize Bootstrap tooltips on each draw (for AJAX-loaded rows)
+        table.on('draw.dt', function () {
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+            tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+                var existing = bootstrap.Tooltip.getInstance(tooltipTriggerEl);
+                if (existing) {
+                    existing.dispose();
+                }
+                new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+
         return table;
     };
 
