@@ -34,21 +34,17 @@
     {{-- applications end --}}
 
     {{-- system setting --}}
-    <li class="menu-title" role="presentation" data-lang="hr-title-tables">setting</li>
+    <li class="menu-title" role="presentation" data-lang="hr-title-tables">Settings</li>
     <li class="slide">
         <a href="#!" class="side-menu__item" role="menuitem">
-            <span class="side_menu_icon"><i class="ri-table-line"></i></span>
+            <span class="side_menu_icon"><i class="ri-settings-3-line"></i></span>
             <span class="side-menu__label" data-lang="hr-tables">System Setting</span>
             <i class="ri-arrow-down-s-line side-menu__angle"></i>
         </a>
         <ul class="slide-menu" role="menu">
             <li class="slide">
-                <a href="system-setting" class="side-menu__item" role="menuitem" data-lang="hr-basic-table">Footer
-                    Setting</a>
-            </li>
-            <li class="slide">
-                <a href="system-setting" class="side-menu__item" role="menuitem" data-lang="hr-basic-table">Profile
-                    Setting</a>
+                <a href="{{ route('settings.edit') }}" class="side-menu__item" role="menuitem"
+                    data-lang="hr-basic-table">General Settings</a>
             </li>
         </ul>
     </li>

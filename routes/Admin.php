@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\RoleController;
+use App\Http\Controllers\Backend\SystemSettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::delete('/{role}', [RoleController::class, 'destroy'])->name('destroy');
             Route::get('/{role}/permissions', [RoleController::class, 'permissions'])->name('permissions');
             Route::put('/{role}/permissions', [RoleController::class, 'updatePermissions'])->name('permissions.update');
+        });
+
+        // System Settings
+        Route::prefix('settings')->name('settings.')->group(function () {
+            Route::get('/', [SystemSettingController::class, 'edit'])->name('edit');
+            Route::post('/', [SystemSettingController::class, 'update'])->name('update');
         });
     });
 });
