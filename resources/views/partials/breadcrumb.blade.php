@@ -10,19 +10,5 @@
             </ol>
         </nav>
     </div>
-    <div class="d-flex my-xl-auto align-items-center flex-shrink-0">
-        @if (!empty(trim(View::yieldContent('modalTarget'))))
-            <a href="javascript:void(0)" 
-               class="btn btn-sm btn-primary" 
-               data-bs-toggle="modal" 
-               data-bs-target="#@yield('modalTarget')">
-                @yield('buttonTitle')
-            </a>
-        @else
-            <a href="{{ url(trim(View::yieldContent('link'))) }}" class="btn btn-sm btn-primary">
-                @yield('buttonTitle')
-            </a>
-        @endif
-    </div>
-  </div>
-  
+
+</div>

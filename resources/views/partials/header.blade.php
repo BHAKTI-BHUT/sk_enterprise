@@ -36,98 +36,7 @@
                     <i class="ri-arrow-right-fill"></i>
                 </button>
 
-                <!-- Search Dropdown -->
-                <div class="dropdown features-dropdown">
 
-                    <!-- Search Input for Desktop -->
-                    <form class="d-none d-sm-block header-search" data-bs-toggle="dropdown" aria-expanded="false">
-                        <div class="form-icon">
-                            <input type="search" class="form-control form-control-icon" id="firstNameLayout4"
-                                placeholder="Search in Herozi" required>
-                            <i class="ri-search-2-line text-muted"></i>
-                        </div>
-                    </form>
-
-                    <!-- Search Button for Mobile -->
-                    <button type="button" class="btn btn-light-light icon-btn d-sm-none" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <span class="visually-hidden">Search</span>
-                        <i class="ri-search-2-line text-muted"></i>
-                    </button>
-
-                    <div class="dropdown-menu">
-                        <span class="dropdown-header fs-12">Recent searches</span>
-                        <div class="dropdown-item text-wrap bg-transparent">
-                            <span class="badge bg-light text-muted me-2">Gulp</span>
-                            <span class="badge bg-light text-muted me-2">Notification panel</span>
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <span class="dropdown-header fs-12">Tutorials</span>
-                        <div class="dropdown-item">
-                            <div class="hstack gap-2 overflow-hidden">
-                                <button type="button"
-                                    class="btn btn-light-light rounded-pill icon-btn-sm flex-shrink-0">
-                                    <span class="visually-hidden">Equalizer settings</span>
-                                    <i class="ri-equalizer-3-line m-0"></i>
-                                </button>
-                                <div class="flex-grow-1 text-truncate">
-                                    <span>How to set up Gulp?</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="dropdown-item">
-                            <div class="hstack gap-2 overflow-hidden">
-                                <button type="button"
-                                    class="btn btn-light-light rounded-pill icon-btn-sm flex-shrink-0">
-                                    <span class="visually-hidden">How to change theme color?</span>
-                                    <i class="ri-palette-line m-0"></i>
-                                </button>
-                                <div class="flex-grow-1 text-truncate">
-                                    <span>How to change theme color?</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <span class="dropdown-header fs-12">Members</span>
-                        <div class="dropdown-item">
-                            <div class="hstack gap-2 overflow-hidden">
-                                <div class="flex-shrink-0">
-                                    <img class="img-fluid avatar-sm avatar-item"
-                                        src="{{ asset('assets/images/avatar/avatar-10.jpg') }}" alt="avatar image">
-                                </div>
-                                <div class="flex-grow-1 text-truncate">
-                                    <span>Amanda Harvey <i class="bi-patch-check-fill text-primary"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="dropdown-item">
-                            <div class="hstack gap-2 overflow-hidden">
-                                <div class="flex-shrink-0">
-                                    <img class="img-fluid avatar-sm avatar-item"
-                                        src="{{ asset('assets/images/avatar/avatar-1.jpg') }}" alt="avatar image">
-                                </div>
-                                <div class="flex-grow-1 text-truncate">
-                                    <span>David Harrison</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="dropdown-item">
-                            <div class="hstack gap-2 overflow-hidden">
-                                <div class="flex-shrink-0">
-                                    <div class="avatar-item avatar-sm avatar-title border-0 text-bg-info">A</div>
-                                </div>
-                                <div class="flex-grow-1 text-truncate ms-2">
-                                    <span>Anne Richard</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <a class="px-5 py-2 d-block text-center link-primary">
-                            See all results
-                            <i class="ri-arrow-right-s-line"></i>
-                        </a>
-                    </div>
-                </div>
             </div>
 
             <div class="header-right hstack gap-3">
@@ -154,7 +63,10 @@
                     <div class="dropdown-menu dropdown-menu-end header-language-scrollable"
                         aria-labelledby="accountNavbarDropdown">
 
-                        <a class="dropdown-item" href="../auth-signin">Sign out</a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="dropdown-item">Sign out</button>
+                        </form>
                     </div>
                 </div>
             </div>
