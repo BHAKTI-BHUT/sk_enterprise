@@ -57,7 +57,7 @@
                     orderable: false,
                     searchable: false
                 }
-            });
+            ]);
 
             @if (session('success'))
                 showToast('{{ session('success') }}');

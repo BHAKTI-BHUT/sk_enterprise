@@ -56,8 +56,8 @@
                                     src="{{ Auth::user()->image ? asset(Auth::user()->image) : asset('assets/images/avatar/avatar-1.jpg') }}"
                                     alt="avatar image">
                             </span>
-                            <span
-                                class="position-absolute border-2 border border-white h-12px w-12px rounded-circle bg-success end-0 bottom-0"></span>
+                            {{-- <span
+                                class="position-absolute border-2 border border-white h-12px w-12px rounded-circle bg-success end-0 bottom-0"></span> --}}
                         </span>
                         <span>
                             <span id="header-profile-name"
