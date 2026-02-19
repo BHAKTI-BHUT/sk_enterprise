@@ -52,21 +52,25 @@
                         aria-expanded="false" data-bs-auto-close="outside" data-bs-dropdown-animation>
                         <span class="position-relative">
                             <span class="avatar-item avatar overflow-hidden">
-                                <img class="img-fluid" src="{{ asset('assets/images/avatar/avatar-1.jpg') }}"
+                                <img id="header-profile-img" class="img-fluid"
+                                    src="{{ Auth::user()->image ? asset(Auth::user()->image) : asset('assets/images/avatar/avatar-1.jpg') }}"
                                     alt="avatar image">
                             </span>
                             <span
                                 class="position-absolute border-2 border border-white h-12px w-12px rounded-circle bg-success end-0 bottom-0"></span>
                         </span>
                         <span>
-                            <span class="h6 d-none d-xl-inline-block text-start fw-semibold mb-0">Admin</span>
-                            <span class="d-none d-xl-block fs-12 text-start text-muted">Admin</span>
+                            <span id="header-profile-name"
+                                class="h6 d-none d-xl-inline-block text-start fw-semibold mb-0">{{ Auth::user()->name }}</span>
+                            <span id="header-profile-role"
+                                class="d-none d-xl-block fs-12 text-start text-muted">{{ Auth::user()->getRoleNames()->first() ?? 'User' }}</span>
                         </span>
                     </button>
 
                     <div class="dropdown-menu dropdown-menu-end header-language-scrollable"
                         aria-labelledby="accountNavbarDropdown">
-
+                        <a href="{{ route('profile.edit') }}" class="dropdown-item">Profile Settings</a>
+                        <div class="dropdown-divider"></div>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit" class="dropdown-item">Sign out</button>
