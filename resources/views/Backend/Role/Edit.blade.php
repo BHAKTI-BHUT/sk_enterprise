@@ -24,22 +24,21 @@
                     <h5 class="card-title mb-0">Edit Role</h5>
                 </div>
                 <div class="card-body">
-                    <form id="editRoleForm" class="needs-validation" novalidate>
-                        @csrf
-                        @method('PUT')
-                        <div class="row g-4">
-                            <div class="col-md-6">
-                                <label for="name" class="form-label">Role Name</label>
-                                <input type="text" class="form-control" id="name" name="name"
-                                    placeholder="Role Name" value="{{ $role->name }}" required>
-                                <div class="invalid-feedback">Please enter a role name.</div>
+                    <div id="drawer-form-content">
+                        <form id="editRoleForm" action="{{ route('role.update', $role->id) }}" method="POST"
+                            class="needs-validation" novalidate>
+                            @csrf
+                            @method('PUT')
+                            <div class="row g-4">
+                                <div class="col-md-12">
+                                    <label for="name" class="form-label">Role Name</label>
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        placeholder="Role Name" value="{{ $role->name }}" required>
+                                    <div class="invalid-feedback">Please enter a role name.</div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="d-flex justify-content-end gap-2 mt-4">
-                            <button type="submit" class="btn btn-primary">Update Role</button>
-                            <a href="{{ route('role.index') }}" class="btn btn-light">Cancel</a>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

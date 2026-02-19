@@ -49,6 +49,7 @@
             @include('partials.datatable-script')
             @yield('js')
 
+            @include('partials.common-drawer')
 </body>
 
 </html>

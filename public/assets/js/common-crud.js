@@ -131,4 +131,189 @@ $(document).ready(function () {
             toastElement.remove();
         });
     };
+
+    // --- GLOBAL DELETE CONFIRMATION (SweetAlert2) ---
+
+    $(document).on('submit', '.delete-form', function (e) {
+        e.preventDefault();
+        var $form = $(this);
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'This action cannot be undone!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel',
+            customClass: {
+                popup: 'swal2-sm'
+            }
+        }).then(function (result) {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: $form.attr('action'),
+                    method: 'POST',
+                    data: $form.serialize(),
+                    success: function (response) {
+                        showToast(response.message || 'Deleted successfully!');
+                        // Reload any DataTable on the page
+                        if ($('.dataTable').length) {
+                            $('.dataTable').each(function () {
+                                $(this).DataTable().ajax.reload(null, false);
+                            });
+                        }
+                    },
+                    error: function (xhr) {
+                        var msg = (xhr.responseJSON && xhr.responseJSON.message) ? xhr.responseJSON.message : 'Failed to delete.';
+                        showToast(msg, 'danger');
+                    }
+                });
+            }
+        });
+    });
+
+    // --- DRAWER HANDLING LOGIC ---
+
+    const commonDrawer = document.getElementById('commonDrawer');
+    const drawerInstance = commonDrawer ? new bootstrap.Offcanvas(commonDrawer) : null;
+
+    $(document).on('click', '[data-drawer="true"], .drawer-link', function (e) {
+        e.preventDefault();
+        const url = $(this).attr('href');
+        const title = $(this).data('drawer-title') || $(this).text().trim() || 'Form';
+
+        $('#commonDrawerLabel').text(title);
+        $('#commonDrawerBody').html('<div class="text-center p-5"><div class="spinner-border text-primary" role="status"></div></div>');
+        $('#commonDrawerFooter').addClass('d-none');
+
+        drawerInstance.show();
+
+        $.ajax({
+            url: url,
+            method: 'GET',
+            success: function (html) {
+                const $html = $('<div>').html(html);
+                let $wrapper = $html.find('#drawer-form-content');
+                let $content = null;
+
+                if ($wrapper.length > 0) {
+                    // Use the entire wrapper content (may include buttons, styles, scripts alongside the form)
+                    $content = $wrapper;
+                } else {
+                    // Fallback: grab any form from the page
+                    var $fallbackForm = $html.find('form').first();
+                    if ($fallbackForm.length > 0) {
+                        $content = $fallbackForm;
+                    }
+                }
+
+                if ($content && $content.length > 0) {
+                    // Find the form inside the content
+                    var $form = $content.is('form') ? $content : $content.find('form').first();
+
+                    if ($form.length > 0) {
+                        var formId = $form.attr('id') || 'drawerForm';
+                        $form.attr('id', formId);
+
+                        // Extract scripts before inserting HTML (jQuery strips them)
+                        var scripts = [];
+                        $content.find('script').each(function () {
+                            scripts.push($(this).html());
+                            $(this).remove();
+                        });
+
+                        $('#commonDrawerBody').html($content);
+                        $('#commonDrawerFooter').removeClass('d-none');
+                        $('#drawerSubmitBtn').attr('form', formId);
+
+                        // Re-initialize Select2 inside drawer
+                        var $select2 = $('#commonDrawer .select2');
+                        if ($select2.length) {
+                            $select2.select2({
+                                dropdownParent: $('#commonDrawer'),
+                                width: '100%'
+                            });
+                        }
+
+                        // Execute embedded scripts
+                        scripts.forEach(function (scriptContent) {
+                            try { $.globalEval(scriptContent); } catch (e) { console.warn('Drawer script error:', e); }
+                        });
+                    } else {
+                        $('#commonDrawerBody').html('<div class="alert alert-warning m-0">Could not find a form in the loaded content.</div>');
+                    }
+                } else {
+                    $('#commonDrawerBody').html('<div class="alert alert-warning m-0">Could not load form content.</div>');
+                }
+            },
+            error: function () {
+                $('#commonDrawerBody').html('<div class="alert alert-danger m-0">Failed to load content. Please try again.</div>');
+            }
+        });
+    });
+
+    // Handle form submission inside drawer
+    $(document).on('submit', '#commonDrawer form', function (e) {
+        e.preventDefault();
+
+        const $form = $(this);
+        const url = $form.attr('action') || window.location.href;
+        const formData = new FormData(this);
+        const $btn = $('#drawerSubmitBtn');
+
+        // Reset previous validation errors
+        $form.find('.is-invalid').removeClass('is-invalid');
+
+        $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...');
+
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                showToast(response.message || 'Saved successfully!');
+                drawerInstance.hide();
+                $btn.prop('disabled', false).text('Save Changes');
+
+                // Reload any DataTable on the page
+                if ($('.dataTable').length) {
+                    $('.dataTable').each(function () {
+                        $(this).DataTable().ajax.reload(null, false);
+                    });
+                }
+            },
+            error: function (xhr) {
+                $btn.prop('disabled', false).text('Save Changes');
+                if (xhr.status === 422 && xhr.responseJSON && xhr.responseJSON.errors) {
+                    var errors = xhr.responseJSON.errors;
+                    Object.keys(errors).forEach(function (key) {
+                        var field = $form.find('[name="' + key + '"], [name="' + key + '[]"]');
+                        if (field.length) {
+                            field.addClass('is-invalid');
+                            let feedback = field.siblings('.invalid-feedback');
+                            if (feedback.length) {
+                                feedback.text(errors[key][0]);
+                            } else {
+                                field.after('<div class="invalid-feedback d-block">' + errors[key][0] + '</div>');
+                            }
+                        }
+                    });
+                } else {
+                    showToast('An error occurred while saving.', 'danger');
+                }
+            }
+        });
+    });
+
+    // Clean up drawer body when hidden
+    if (commonDrawer) {
+        commonDrawer.addEventListener('hidden.bs.offcanvas', function () {
+            $('#commonDrawerBody').html('');
+            $('#commonDrawerFooter').addClass('d-none');
+        });
+    }
 });

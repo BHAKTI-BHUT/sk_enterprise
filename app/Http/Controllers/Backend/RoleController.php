@@ -123,6 +123,10 @@ class RoleController extends Controller
         $permissions = $request->input('permissions', []);
         $role->syncPermissions($permissions);
 
+        if ($request->ajax()) {
+            return response()->json(['message' => 'Permissions updated successfully!']);
+        }
+
         return redirect()->route('role.permissions', $role->id)
             ->with('success', 'Permissions updated successfully!');
     }

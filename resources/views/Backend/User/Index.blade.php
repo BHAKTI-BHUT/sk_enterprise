@@ -57,26 +57,6 @@
                     orderable: false,
                     searchable: false
                 }
-            ]);
-
-            // Delete User
-            $(document).on('submit', '.delete-form', function(e) {
-                e.preventDefault();
-                var form = $(this);
-                if (confirm('Are you sure you want to delete this user?')) {
-                    $.ajax({
-                        url: form.attr('action'),
-                        method: 'POST',
-                        data: form.serialize(),
-                        success: function(response) {
-                            table.ajax.reload();
-                            showToast(response.message);
-                        },
-                        error: function(xhr) {
-                            showToast('Failed to delete user.', 'danger');
-                        }
-                    });
-                }
             });
 
             @if (session('success'))

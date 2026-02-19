@@ -10,7 +10,7 @@
                     $faviconSmall = \App\Models\Setting::get('favicon', 'assets/images/Favicon.png');
                 @endphp
                 <div class="app-sidebar-logo app-horizontal-logo justify-content-center align-items-center">
-                    <a href="index">
+                    <a href="{{ route('dashboard') }}">
                         <img height="35" class="app-sidebar-logo-default" alt="Logo" loading="lazy"
                             src="{{ asset($logo) }}">
                         <img height="40" class="app-sidebar-logo-minimize" alt="Logo" loading="lazy"

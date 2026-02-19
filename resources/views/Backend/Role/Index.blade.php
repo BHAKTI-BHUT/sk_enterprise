@@ -56,26 +56,6 @@
                 }
             ]);
 
-            // Delete Role
-            $(document).on('submit', '.delete-form', function(e) {
-                e.preventDefault();
-                var form = $(this);
-                if (confirm('Are you sure you want to delete this role?')) {
-                    $.ajax({
-                        url: form.attr('action'),
-                        method: 'POST',
-                        data: form.serialize(),
-                        success: function(response) {
-                            table.ajax.reload();
-                            showToast(response.message);
-                        },
-                        error: function(xhr) {
-                            showToast('Failed to delete role.', 'danger');
-                        }
-                    });
-                }
-            });
-
             @if (session('success'))
                 showToast('{{ session('success') }}');
             @endif

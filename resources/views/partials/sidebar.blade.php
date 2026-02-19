@@ -6,7 +6,7 @@
         $sidebarFavicon = \App\Models\Setting::get('favicon', 'assets/images/Favicon.png');
     @endphp
     <div class="app-sidebar-logo px-6 justify-content-center align-items-center">
-        <a href="index">
+        <a href="{{ route('dashboard') }}">
             <img height="35" class="app-sidebar-logo-default" alt="Logo" src="{{ asset($sidebarLogo) }}">
             <img height="40" class="app-sidebar-logo-minimize" alt="Logo" src="{{ asset($sidebarFavicon) }}">
         </a>
@@ -20,12 +20,14 @@
 <div class="horizontal-overlay"></div>
 
 <!-- START SMALL SCREEN SIDEBAR -->
-<div class="offcanvas offcanvas-md offcanvas-start small-screen-sidebar" data-bs-scroll="true" tabindex="-1" id="smallScreenSidebar" aria-labelledby="smallScreenSidebarLabel">
+<div class="offcanvas offcanvas-md offcanvas-start small-screen-sidebar" data-bs-scroll="true" tabindex="-1"
+    id="smallScreenSidebar" aria-labelledby="smallScreenSidebarLabel">
     <div class="offcanvas-header hstack border-bottom">
         <!-- START BRAND LOGO -->
         <div class="app-sidebar-logo">
-            <a href="index">
-                <img height="35" class="app-sidebar-logo-default h-25px" alt="Logo" src="{{ asset($sidebarLogo) }}">
+            <a href="{{ route('dashboard') }}">
+                <img height="35" class="app-sidebar-logo-default h-25px" alt="Logo"
+                    src="{{ asset($sidebarLogo) }}">
                 <img height="40" class="app-sidebar-logo-minimize" alt="Logo" src="{{ asset($sidebarFavicon) }}">
             </a>
         </div>
@@ -39,7 +41,7 @@
             <!-- END BRAND LOGO -->
             <nav class="app-sidebar-menu nav nav-pills flex-column fs-6" aria-label="Main navigation">
                 @include('partials.sidebar-menu-items')
-                
+
             </nav>
         </aside>
     </div>

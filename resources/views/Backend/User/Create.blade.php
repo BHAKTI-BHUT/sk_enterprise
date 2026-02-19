@@ -22,42 +22,41 @@
                     <h5 class="card-title mb-0">Add New User</h5>
                 </div>
                 <div class="card-body">
-                    <form id="addUserForm" class="needs-validation" novalidate>
-                        @csrf
-                        <div class="row g-4">
-                            <div class="col-md-6">
-                                <label for="name" class="form-label">Full Name</label>
-                                <input type="text" class="form-control" id="name" name="name"
-                                    placeholder="Full Name" required>
-                                <div class="invalid-feedback">Please enter a name.</div>
+                    <div id="drawer-form-content">
+                        <form id="addUserForm" action="{{ route('user.store') }}" method="POST" class="needs-validation"
+                            novalidate>
+                            @csrf
+                            <div class="row g-4">
+                                <div class="col-md-12">
+                                    <label for="name" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        placeholder="Full Name" required>
+                                    <div class="invalid-feedback">Please enter a name.</div>
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email"
+                                        placeholder="Email" required>
+                                    <div class="invalid-feedback">Please provide a valid email.</div>
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password"
+                                        placeholder="Password" minlength="6" required>
+                                    <div class="invalid-feedback">Password must be at least 6 characters.</div>
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="roles" class="form-label">Roles</label>
+                                    <select class="form-select select2" id="roles" name="roles[]" multiple required>
+                                        @foreach ($roles as $role)
+                                            <option value="{{ $role->name }}">{{ $role->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback">Please select at least one role.</div>
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Email"
-                                    required>
-                                <div class="invalid-feedback">Please provide a valid email.</div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" name="password"
-                                    placeholder="Password" minlength="6" required>
-                                <div class="invalid-feedback">Password must be at least 6 characters.</div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="roles" class="form-label">Roles</label>
-                                <select class="form-select select2" id="roles" name="roles[]" multiple required>
-                                    @foreach ($roles as $role)
-                                        <option value="{{ $role->name }}">{{ $role->name }}</option>
-                                    @endforeach
-                                </select>
-                                <div class="invalid-feedback">Please select at least one role.</div>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-end gap-2 mt-4">
-                            <button type="submit" class="btn btn-primary">Save User</button>
-                            <a href="{{ route('user.index') }}" class="btn btn-light">Cancel</a>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -92,13 +91,18 @@
                             }, 1000);
                         },
                         error: function(xhr) {
-                            if (xhr.status === 422 && xhr.responseJSON && xhr.responseJSON.errors) {
+                            if (xhr.status === 422 && xhr.responseJSON && xhr.responseJSON
+                                .errors) {
                                 var errors = xhr.responseJSON.errors;
                                 Object.keys(errors).forEach(function(key) {
-                                    var field = $('#addUserForm').find('[name="' + key + '"]');
+                                    var field = $('#addUserForm').find('[name="' + key +
+                                        '"]');
                                     if (field.length) {
                                         field.addClass('is-invalid');
-                                        field.closest('.col-md-6, .mb-3').find('.invalid-feedback').text(errors[key][0]);
+                                        field.closest('.col-md-6, .mb-3').find(
+                                            '.invalid-feedback').text(errors[key][
+                                            0
+                                        ]);
                                     }
                                 });
                             } else {
