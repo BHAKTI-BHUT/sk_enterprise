@@ -5,9 +5,17 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SystemSettingRequest;
 use App\Models\Setting;
+use App\Services\FileService;
 
 class SystemSettingController extends Controller
 {
+    protected $fileService;
+
+    public function __construct(FileService $fileService)
+    {
+        $this->fileService = $fileService;
+    }
+
     public function edit()
     {
         $settings = [
@@ -21,16 +29,17 @@ class SystemSettingController extends Controller
 
     public function update(SystemSettingRequest $request)
     {
-
         // Handle logo upload
         if ($request->hasFile('logo')) {
-            $path = $this->storeFile($request->file('logo'), 'logo');
+            $oldLogo = Setting::get('logo');
+            $path = $this->fileService->upload($request->file('logo'), 'uploads/settings', $oldLogo, 'logo');
             Setting::set('logo', $path);
         }
 
         // Handle favicon upload
         if ($request->hasFile('favicon')) {
-            $path = $this->storeFile($request->file('favicon'), 'favicon');
+            $oldFavicon = Setting::get('favicon');
+            $path = $this->fileService->upload($request->file('favicon'), 'uploads/settings', $oldFavicon, 'favicon');
             Setting::set('favicon', $path);
         }
 
@@ -39,19 +48,5 @@ class SystemSettingController extends Controller
         }
 
         return redirect()->route('settings.edit')->with('success', 'Settings updated successfully.');
-    }
-
-    protected function storeFile($file, string $prefix): string
-    {
-        $directory = public_path('uploads/settings');
-        if (!is_dir($directory)) {
-            mkdir($directory, 0755, true);
-        }
-
-        $filename = $prefix . '_' . time() . '.' . $file->getClientOriginalExtension();
-        $file->move($directory, $filename);
-
-        // Return relative path usable with asset()
-        return 'uploads/settings/' . $filename;
     }
 }

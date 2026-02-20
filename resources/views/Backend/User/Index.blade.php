@@ -20,6 +20,7 @@
                             <th>Last Name</th>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Roles</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -54,6 +55,68 @@
                     data: 'email',
                     name: 'email'
                 },
+                // {
+                //     data: 'image',
+                //     name: 'image',
+                //     orderable: false,
+                //     searchable: false
+                // },
+                // {
+                //     data: 'email_verified_at',
+                //     name: 'email_verified_at'
+                // },
+                // {
+                //     data: 'phone',
+                //     name: 'phone'
+                // },
+                // {
+                //     data: 'date_of_birth',
+                //     name: 'date_of_birth'
+                // },
+                // {
+                //     data: 'gender',
+                //     name: 'gender'
+                // },
+                // {
+                //     data: 'address',
+                //     name: 'address'
+                // },
+                // {
+                //     data: 'city',
+                //     name: 'city'
+                // },
+                // {
+                //     data: 'state',
+                //     name: 'state'
+                // },
+                // {
+                //     data: 'country',
+                //     name: 'country'
+                // },
+                // {
+                //     data: 'postal_code',
+                //     name: 'postal_code'
+                // },
+                // {
+                //     data: 'status',
+                //     name: 'status',
+                //     orderable: false,
+                //     searchable: false
+                // },
+                {
+                    data: 'roles',
+                    name: 'roles',
+                    orderable: false,
+                    searchable: false
+                },
+                // {
+                //     data: 'created_at',
+                //     name: 'created_at'
+                // },
+                // {
+                //     data: 'updated_at',
+                //     name: 'updated_at'
+                // },
                 {
                     data: 'action',
                     name: 'action',

@@ -12,8 +12,17 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
+use App\Services\FileService;
+
 class ProfileController extends Controller
 {
+    protected $fileService;
+
+    public function __construct(FileService $fileService)
+    {
+        $this->fileService = $fileService;
+    }
+
     /**
      * Display the user's profile form.
      */
@@ -44,20 +53,9 @@ class ProfileController extends Controller
         $data['name'] = $data['first_name'] . ' ' . $data['last_name'];
 
         if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($user->image && file_exists(public_path($user->image))) {
-                unlink(public_path($user->image));
-            }
-
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('uploads/profile'), $imageName);
-            $data['image'] = 'uploads/profile/' . $imageName;
+            $data['image'] = $this->fileService->upload($request->file('image'), 'uploads/profile', $user->image);
         } elseif ($request->input('remove_image') == '1') {
-            // Remove image if requested
-            if ($user->image && file_exists(public_path($user->image))) {
-                unlink(public_path($user->image));
-            }
+            $this->fileService->delete($user->image);
             $data['image'] = null;
         }
 
@@ -66,6 +64,7 @@ class ProfileController extends Controller
         } else {
             unset($data['password']);
         }
+
 
         $user->fill($data);
 

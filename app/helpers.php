@@ -11,3 +11,16 @@ if (!function_exists('getSettings')) {
         ];
     }
 }
+if (!function_exists('uploadFile')) {
+    function uploadFile($file, $directory, $oldPath = null, $prefix = null)
+    {
+        return app(\App\Services\FileService::class)->upload($file, $directory, $oldPath, $prefix);
+    }
+}
+
+if (!function_exists('deleteFile')) {
+    function deleteFile($path)
+    {
+        return app(\App\Services\FileService::class)->delete($path);
+    }
+}
