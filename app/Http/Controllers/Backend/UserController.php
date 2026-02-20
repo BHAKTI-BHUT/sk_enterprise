@@ -17,10 +17,60 @@ class UserController extends Controller
             $users = User::with('roles')->orderBy('created_at', 'desc');
 
             return datatables()->of($users)
+                ->editColumn('first_name', function ($user) {
+                    return $user->first_name ?? '—';
+                })
+                ->editColumn('last_name', function ($user) {
+                    return $user->last_name ?? '—';
+                })
+                ->addColumn('image', function ($user) {
+                    if ($user->image) {
+                        return '<img src="' . asset('storage/' . $user->image) . '" alt="Avatar" class="rounded-circle" width="35" height="35">';
+                    }
+                    return '<span class="text-muted">—</span>';
+                })
+                // ->editColumn('email_verified_at', function ($user) {
+                //     return $user->email_verified_at ? $user->email_verified_at->format('d M Y, h:i A') : '—';
+                // })
                 ->addColumn('roles', function ($user) {
                     return $user->getRoleNames()->map(function ($role) {
                         return '<span class="badge bg-primary">' . $role . '</span>';
                     })->implode(' ');
+                })
+                // ->editColumn('phone', function ($user) {
+                //     return $user->phone ?? '—';
+                // })
+                // ->editColumn('date_of_birth', function ($user) {
+                //     return $user->date_of_birth ? $user->date_of_birth->format('d M Y') : '—';
+                // })
+                // ->editColumn('gender', function ($user) {
+                //     return $user->gender ? ucfirst($user->gender) : '—';
+                // })
+                // ->editColumn('address', function ($user) {
+                //     return $user->address ?? '—';
+                // })
+                // ->editColumn('city', function ($user) {
+                //     return $user->city ?? '—';
+                // })
+                // ->editColumn('state', function ($user) {
+                //     return $user->state ?? '—';
+                // })
+                // ->editColumn('country', function ($user) {
+                //     return $user->country ?? '—';
+                // })
+                // ->editColumn('postal_code', function ($user) {
+                //     return $user->postal_code ?? '—';
+                // })
+                ->addColumn('status', function ($user) {
+                    $badge = $user->status === 'active' ? 'bg-success' : 'bg-danger';
+                    $label = $user->status ? ucfirst($user->status) : 'Active';
+                    return '<span class="badge ' . $badge . '">' . $label . '</span>';
+                })
+                ->editColumn('created_at', function ($user) {
+                    return $user->created_at ? $user->created_at->format('d M Y, h:i A') : '—';
+                })
+                ->editColumn('updated_at', function ($user) {
+                    return $user->updated_at ? $user->updated_at->format('d M Y, h:i A') : '—';
                 })
                 ->addColumn('action', function ($user) {
                     return view('partials.action-buttons', [
@@ -29,7 +79,7 @@ class UserController extends Controller
                         'delete_route' => route('user.destroy', $user->id)
                     ])->render();
                 })
-                ->rawColumns(['roles', 'action'])
+                ->rawColumns(['roles',  'action'])
                 ->make(true);
         }
 

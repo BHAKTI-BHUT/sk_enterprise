@@ -1,8 +1,6 @@
 @extends('partials.Layouts.master3')
 
-@section('title',
-    'Online Course Dashboard | Herozi - The Worlds Best Selling Bootstrap Admin & Dashboard Template by
-    SRBThemes')
+@section('title', 'Dashboard | Herozi - Design & Developed by ❤️SparkBizTech.')
 @section('sub-title', 'Dashboard Details')
 @section('pagetitle', 'Dashboard')
 @section('buttonTitle', 'Share')

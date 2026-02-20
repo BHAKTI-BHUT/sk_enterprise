@@ -107,7 +107,8 @@
                                         field.addClass('is-invalid');
                                         field.closest('.col-md-6, .mb-3').find(
                                             '.invalid-feedback').text(errors[key][
-                                            0]);
+                                            0
+                                        ]);
                                     }
                                 });
                             } else {

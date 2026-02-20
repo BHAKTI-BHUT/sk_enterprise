@@ -21,6 +21,7 @@ class SystemSettingController extends Controller
 
     public function update(SystemSettingRequest $request)
     {
+
         // Handle logo upload
         if ($request->hasFile('logo')) {
             $path = $this->storeFile($request->file('logo'), 'logo');
@@ -54,4 +55,3 @@ class SystemSettingController extends Controller
         return 'uploads/settings/' . $filename;
     }
 }
-

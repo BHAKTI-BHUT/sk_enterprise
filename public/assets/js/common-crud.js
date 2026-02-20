@@ -42,13 +42,22 @@ $(document).ready(function () {
     };
 
     // Initialize DataTable (matching Herozi theme style)
-    window.initDataTable = function (selector, url, columns) {
-        var table = $(selector).DataTable({
+    window.initDataTable = function (selector, url, columns, options) {
+        options = options || {};
+
+        var tableConfig = {
             processing: true,
             serverSide: true,
             ajax: url,
             columns: columns,
             order: [[0, 'desc']],
+            scrollY: options.scrollY || '60vh',
+            scrollX: true,
+            scrollCollapse: true,
+            fixedColumns: {
+                left: 3,
+                right: 1
+            },
             dom:
                 '<"card-header dt-head d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3"' +
                 '<"d-flex align-items-center gap-2"l>' +
@@ -82,7 +91,9 @@ $(document).ready(function () {
                     selectEl.removeClass('form-select-sm');
                 }
             }
-        });
+        };
+
+        var table = $(selector).DataTable(tableConfig);
 
         // Re-initialize Bootstrap tooltips on each draw (for AJAX-loaded rows)
         table.on('draw.dt', function () {
@@ -94,6 +105,24 @@ $(document).ready(function () {
                 }
                 new bootstrap.Tooltip(tooltipTriggerEl);
             });
+        });
+
+        // Recalculate column widths on window resize & sidebar toggle
+        var resizeTimer;
+        $(window).on('resize', function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function () {
+                table.columns.adjust();
+                if (table.fixedColumns) { table.fixedColumns().relayout(); }
+            }, 250);
+        });
+
+        // Handle sidebar toggle — recalculate after CSS transition ends
+        $(document).on('click', '.sidebar-toggle, .hamburger-icon, [data-bs-toggle="collapse"]', function () {
+            setTimeout(function () {
+                table.columns.adjust();
+                if (table.fixedColumns) { table.fixedColumns().relayout(); }
+            }, 350);
         });
 
         return table;

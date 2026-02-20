@@ -20,8 +20,7 @@
                         <div class="row g-4">
                             <div class="col-md-6">
                                 <label for="logo" class="form-label">Logo</label>
-                                <input type="file"
-                                    class="form-control @error('logo') is-invalid @enderror"
+                                <input type="file" class="form-control @error('logo') is-invalid @enderror"
                                     id="logo" name="logo">
                                 @error('logo')
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -36,8 +35,7 @@
 
                             <div class="col-md-6">
                                 <label for="favicon" class="form-label">Favicon</label>
-                                <input type="file"
-                                    class="form-control @error('favicon') is-invalid @enderror"
+                                <input type="file" class="form-control @error('favicon') is-invalid @enderror"
                                     id="favicon" name="favicon">
                                 @error('favicon')
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
@@ -52,9 +50,8 @@
 
                             <div class="col-12">
                                 <label class="form-label">Footer Text</label>
-                                <textarea name="footer_text"
-                                    class="form-control @error('footer_text') is-invalid @enderror"
-                                    rows="2" placeholder="Footer text">{{ old('footer_text', $settings['footer_text'] ?? '') }}</textarea>
+                                <textarea name="footer_text" class="form-control @error('footer_text') is-invalid @enderror" rows="2"
+                                    placeholder="Footer text">{{ old('footer_text', $settings['footer_text'] ?? '') }}</textarea>
                                 @error('footer_text')
                                     <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
@@ -96,5 +93,3 @@
         });
     </script>
 @endsection
-
-

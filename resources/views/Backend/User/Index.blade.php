@@ -16,9 +16,10 @@
                     <thead class="bg-light bg-opacity-30">
                         <tr>
                             <th>ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Roles</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -38,18 +39,20 @@
                     name: 'id'
                 },
                 {
+                    data: 'first_name',
+                    name: 'first_name'
+                },
+                {
+                    data: 'last_name',
+                    name: 'last_name'
+                },
+                {
                     data: 'name',
                     name: 'name'
                 },
                 {
                     data: 'email',
                     name: 'email'
-                },
-                {
-                    data: 'roles',
-                    name: 'roles',
-                    orderable: false,
-                    searchable: false
                 },
                 {
                     data: 'action',

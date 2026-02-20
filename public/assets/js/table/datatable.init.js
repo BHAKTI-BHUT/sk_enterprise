@@ -444,50 +444,50 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             ],
             dom: '<"card-header dt-head d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3"' +
-            '<"head-label">' +
-            '<"d-flex flex-column flex-sm-row align-items-center justify-content-sm-end gap-3 w-100"f<"export_button">>' +
-            '>' +
-            '<"table-responsive"t>' +
-            '<"card-footer d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2"i' +
-            '<"d-flex align-items-sm-center justify-content-end gap-4">p' +
-            '>',
-        buttons: [
-            {
-                extend: 'copy',
-                text: 'Copy',
-                className: 'dropdown-item'
+                '<"head-label">' +
+                '<"d-flex flex-column flex-sm-row align-items-center justify-content-sm-end gap-3 w-100"f<"export_button">>' +
+                '>' +
+                '<"table-responsive"t>' +
+                '<"card-footer d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2"i' +
+                '<"d-flex align-items-sm-center justify-content-end gap-4">p' +
+                '>',
+            buttons: [
+                {
+                    extend: 'copy',
+                    text: 'Copy',
+                    className: 'dropdown-item'
+                },
+                {
+                    extend: 'csv',
+                    text: 'CSV',
+                    className: 'dropdown-item'
+                },
+                {
+                    extend: 'excel',
+                    text: 'Excel',
+                    className: 'dropdown-item'
+                },
+                {
+                    extend: 'print',
+                    text: 'Print',
+                    className: 'dropdown-item'
+                }
+            ],
+            language: {
+                sLengthMenu: 'Show _MENU_',
+                search: '',
+                searchPlaceholder: 'Search Files',
+                paginate: {
+                    next: '<i class="ri-arrow-right-s-line"></i>',
+                    previous: '<i class="ri-arrow-left-s-line"></i>'
+                }
             },
-            {
-                extend: 'csv',
-                text: 'CSV',
-                className: 'dropdown-item'
-            },
-            {
-                extend: 'excel',
-                text: 'Excel',
-                className: 'dropdown-item'
-            },
-            {
-                extend: 'print',
-                text: 'Print',
-                className: 'dropdown-item'
-            }
-        ],
-        language: {
-            sLengthMenu: 'Show _MENU_',
-            search: '',
-            searchPlaceholder: 'Search Files',
-            paginate: {
-                next: '<i class="ri-arrow-right-s-line"></i>',
-                previous: '<i class="ri-arrow-left-s-line"></i>'
-            }
-        },
-        lengthMenu: [10, 20, 50],
-        pageLength: 10,
-        initComplete: function () {
-            // Dynamically create the dropdown and append it to the DOM
-            const exportButtonContainer = document.querySelector('.export_button');
-            exportButtonContainer.innerHTML = `
+            lengthMenu: [10, 20, 50],
+            pageLength: 10,
+            initComplete: function () {
+                // Dynamically create the dropdown and append it to the DOM
+                const exportButtonContainer = document.querySelector('.export_button');
+                exportButtonContainer.innerHTML = `
                 <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle" type="button" id="exportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         Export
@@ -498,21 +498,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 </div>
             `;
 
-            // Add the DataTables export buttons inside the dropdown menu
-            const exportDropdown = exportButtonContainer.querySelector('.dropdown-menu');
-            this.api().buttons().container().appendTo(exportDropdown);
+                // Add the DataTables export buttons inside the dropdown menu
+                const exportDropdown = exportButtonContainer.querySelector('.dropdown-menu');
+                this.api().buttons().container().appendTo(exportDropdown);
 
-            // Ensure the dropdown buttons work properly (sometimes due to DOM manipulation, the buttons may not be fully functional)
-            const dropdownButtons = exportDropdown.querySelectorAll('button');
-            dropdownButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    // Trigger the export action
-                    const index = Array.from(dropdownButtons).indexOf(button);
-                    this.DataTable().button(index).trigger();
+                // Ensure the dropdown buttons work properly (sometimes due to DOM manipulation, the buttons may not be fully functional)
+                const dropdownButtons = exportDropdown.querySelectorAll('button');
+                dropdownButtons.forEach(button => {
+                    button.addEventListener('click', function () {
+                        // Trigger the export action
+                        const index = Array.from(dropdownButtons).indexOf(button);
+                        this.DataTable().button(index).trigger();
+                    });
                 });
-            });
-        }
-    });
+            }
+        });
 
         document.querySelector('div.head-label').innerHTML = '<h5 class="card-title text-nowrap mb-0">Select Option</h5>';
 
