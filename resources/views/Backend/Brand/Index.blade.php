@@ -1,29 +1,31 @@
 @extends('partials.layouts.master')
 
-@section('title', 'Role Management | Herozi')
+@section('title', 'Brand Management | Herozi')
 
-@section('sub-title', 'Role Manage')
-@section('pagetitle', 'Roles')
-@section('buttonTitle', '+ Add Role')
-@section('buttonLink', route('role.create'))
+@section('sub-title', 'Brand Manage')
+@section('pagetitle', 'Brands')
+@section('buttonTitle', '+ New Brand')
+@section('buttonLink', route('brand.create'))
 @section('buttonDrawer', 'true')
-@section('buttonDrawerTitle', 'Add New Role')
+@section('buttonDrawerTitle', 'Add New Brand')
 
 @section('content')
 
     <div class="row g-4">
         <div class="col-12">
             <div class="card mb-0 h-100">
-                <table id="role-table" class="table-hover align-middle table table-nowrap w-100">
-                    <thead class="bg-light bg-opacity-30">
-                        <tr>
-                            <th>ID</th>
-                            <th>Role Name</th>
-                            <th>Permissions Count</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                </table>
+                <div class="card-body">
+                    <table id="brand-table" class="table-hover align-middle table table-nowrap w-100">
+                        <thead class="bg-light bg-opacity-30">
+                            <tr>
+                                <th>ID</th>
+                                <th>Brand Name</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -34,7 +36,7 @@
     <script>
         $(document).ready(function() {
             // Initialize DataTable
-            var table = initDataTable('#role-table', '{{ route('role.index') }}', [{
+            var table = initDataTable('#brand-table', '{{ route('brand.index') }}', [{
                     data: 'id',
                     name: 'id'
                 },
@@ -43,8 +45,8 @@
                     name: 'name'
                 },
                 {
-                    data: 'permissions_count',
-                    name: 'permissions_count',
+                    data: 'status',
+                    name: 'status',
                     orderable: false,
                     searchable: false
                 },
@@ -55,7 +57,7 @@
                     searchable: false
                 }
             ], {
-                buttonHtml: `<a href="{{ route('role.create') }}" class="btn btn-primary btn-sm">+ Add Role</a>`,
+                buttonHtml: `<a href="{{ route('brand.create') }}" class="btn btn-primary btn-sm">+ New Brand</a>`,
                 fixedColumns: {
                     left: 0,
                     right: 1

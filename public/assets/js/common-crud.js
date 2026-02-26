@@ -11,6 +11,20 @@ $(document).ready(function () {
         }
     });
 
+    // Initialize Select2 for any element with .select2 class
+    window.initSelect2 = function (selector) {
+        selector = selector || '.select2';
+        $(selector).each(function () {
+            $(this).select2({
+                width: '100%',
+                dropdownParent: $(this).parent() // Ensure it works inside modals/drawers correctly
+            });
+        });
+    };
+
+    // Call it on page load
+    initSelect2();
+
     // Initialize Select2 AJAX
     window.initSelect2Ajax = function (selector, url, placeholder = "Search...") {
         $(selector).select2({
@@ -50,22 +64,19 @@ $(document).ready(function () {
             serverSide: true,
             ajax: url,
             columns: columns,
-            order: [[0, 'desc']],
+            order: options.order || [[0, 'desc']],
             scrollY: options.scrollY || '60vh',
             scrollX: true,
             scrollCollapse: true,
-            fixedColumns: {
-                left: 3,
-                right: 1
-            },
+            fixedColumns: options.fixedColumns || false, // Use false by default unless specified
             dom:
                 '<"card-header dt-head d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3"' +
                 '<"d-flex align-items-center gap-2"l>' +
-                '<"d-flex flex-column flex-sm-row align-items-center justify-content-sm-end gap-3 w-100"f<"add_button">>' +
+                '<"d-flex flex-column flex-sm-row align-items-center justify-content-sm-end gap-3 w-100"f>' +
                 '>' +
                 '<"table-responsive"t>' +
                 '<"card-footer d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2"i' +
-                '<"d-flex align-items-sm-center justify-content-end gap-4"p>' +
+                '<"d-flex align-items-sm-center justify-content-end gap-2"p>' +
                 '>',
             language: {
                 sLengthMenu: 'Show _MENU_',
@@ -77,18 +88,19 @@ $(document).ready(function () {
                 },
                 processing: '<div class="spinner-border text-primary" role="status"></div>'
             },
-            lengthMenu: [10, 20, 50],
-            pageLength: 10,
+            lengthMenu: options.lengthMenu || [10, 20, 50, 100],
+            pageLength: options.pageLength || 10,
             initComplete: function () {
+                var $card = $(selector).closest('.card');
+
                 // Remove form-control-sm from search input
-                var inputEl = $(selector).closest('.card').find('.dataTables_filter .form-control');
-                if (inputEl.length) {
-                    inputEl.removeClass('form-control-sm');
-                }
+                $card.find('.dataTables_filter .form-control').removeClass('form-control-sm');
                 // Remove form-select-sm from length select
-                var selectEl = $(selector).closest('.card').find('.dataTables_length .form-select');
-                if (selectEl.length) {
-                    selectEl.removeClass('form-select-sm');
+                $card.find('.dataTables_length .form-select').removeClass('form-select-sm');
+
+                // Inject buttonHtml if provided
+                if (options.buttonHtml) {
+                    $card.find('.add_button_container').append(options.buttonHtml);
                 }
             }
         };

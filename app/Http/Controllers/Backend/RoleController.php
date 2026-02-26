@@ -24,6 +24,7 @@ class RoleController extends Controller
                         'edit_route' => route('role.edit', $role->id),
                         'delete_route' => route('role.destroy', $role->id),
                         'permission_route' => route('role.permissions', $role->id),
+                        'edit_in_drawer' => true
                     ])->render();
                 })
                 ->rawColumns(['action'])

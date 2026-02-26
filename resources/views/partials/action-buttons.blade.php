@@ -7,10 +7,18 @@
         </a>
     @endif
 
+    @if (isset($view_route))
+        <a href="{{ $view_route }}" class="btn icon-btn-sm btn-light-info" data-bs-toggle="tooltip"
+            data-bs-placement="bottom" data-bs-custom-class="tooltip-dark" data-bs-title="View"
+            @if (!isset($view_in_drawer) || $view_in_drawer) data-drawer="true" data-drawer-title="View" @endif>
+            <i class="ri-eye-line"></i>
+        </a>
+    @endif
+
     @if (isset($edit_route))
         <a href="{{ $edit_route }}" class="btn icon-btn-sm btn-light-primary" data-bs-toggle="tooltip"
-            data-bs-placement="bottom" data-bs-custom-class="tooltip-dark" data-bs-title="Edit" data-drawer="true"
-            data-drawer-title="Edit">
+            data-bs-placement="bottom" data-bs-custom-class="tooltip-dark" data-bs-title="Edit"
+            @if (!isset($edit_in_drawer) || $edit_in_drawer) data-drawer="true" data-drawer-title="Edit" @endif>
             <i class="ri-pencil-line"></i>
         </a>
     @endif

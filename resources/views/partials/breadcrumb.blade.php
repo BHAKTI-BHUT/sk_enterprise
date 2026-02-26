@@ -18,7 +18,9 @@
 
     @if ($buttonTitle !== '' && $buttonLink !== '')
         <div class="d-flex my-xl-auto align-items-center flex-shrink-0">
-            <a href="{{ $buttonLink }}" class="btn btn-sm btn-primary" data-drawer="true">
+            <a href="{{ $buttonLink }}" class="btn btn-sm btn-primary"
+                @if (trim(View::yieldContent('buttonDrawer')) === 'true') data-drawer="true" 
+                    data-drawer-title="{{ trim(View::yieldContent('buttonDrawerTitle')) ?: $buttonTitle }}" @endif>
                 {!! $buttonTitle !!}
             </a>
         </div>

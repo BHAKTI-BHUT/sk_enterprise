@@ -67,11 +67,6 @@
 @section('js')
     <script>
         $(document).ready(function() {
-            // Initialize Select2
-            $('.select2').select2({
-                width: '100%'
-            });
-
             // Form Submission
             $('#addUserForm').on('submit', function(e) {
                 e.preventDefault();

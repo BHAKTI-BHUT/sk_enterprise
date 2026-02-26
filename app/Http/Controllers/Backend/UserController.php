@@ -76,7 +76,8 @@ class UserController extends Controller
                     return view('partials.action-buttons', [
                         'id' => $user->id,
                         'edit_route' => route('user.edit', $user->id),
-                        'delete_route' => route('user.destroy', $user->id)
+                        'delete_route' => route('user.destroy', $user->id),
+                        'edit_in_drawer' => true
                     ])->render();
                 })
                 ->rawColumns(['roles',  'action'])

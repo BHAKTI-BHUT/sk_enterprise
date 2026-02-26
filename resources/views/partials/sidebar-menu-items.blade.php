@@ -1,5 +1,6 @@
 @php
     $isUserManagementActive = request()->routeIs('user.*') || request()->routeIs('role.*');
+    $isProductManagementActive = request()->routeIs('product.*');
     $isSystemSettingActive = request()->routeIs('settings.*') || request()->routeIs('profile.*');
 @endphp
 
@@ -13,6 +14,54 @@
         </a>
     </li>
 
+
+    {{-- inventory start --}}
+    <li class="menu-title" role="presentation" data-lang="hr-title-inventory">Inventory Management</li>
+
+    @can('view product')
+        <li class="slide {{ $isProductManagementActive ? 'active' : '' }}">
+            <a href="#!" class="side-menu__item {{ $isProductManagementActive ? 'active' : '' }}" role="menuitem">
+                <span class="side_menu_icon"><i class="ri-shopping-basket-2-line"></i></span>
+                <span class="side-menu__label" data-lang="hr-products">Inventory Management</span>
+                <i class="ri-arrow-down-s-line side-menu__angle"></i>
+            </a>
+
+            <ul class="slide-menu" role="menu">
+
+                {{-- Product --}}
+                @can('view product')
+                    <li class="slide">
+                        <a href="{{ route('product.index') }}"
+                            class="side-menu__item {{ request()->routeIs('product.*') ? 'active' : '' }}" role="menuitem">
+                            Product Manage
+                        </a>
+                    </li>
+                @endcan
+
+                {{-- Brand --}}
+                @can('view brand')
+                    <li class="slide">
+                        <a href="{{ route('brand.index') }}"
+                            class="side-menu__item {{ request()->routeIs('brand.*') ? 'active' : '' }}" role="menuitem">
+                            Brand Manage
+                        </a>
+                    </li>
+                @endcan
+
+                {{-- Category --}}
+                @can('view category')
+                    <li class="slide">
+                        <a href="{{ route('category.index') }}"
+                            class="side-menu__item {{ request()->routeIs('category.*') ? 'active' : '' }}" role="menuitem">
+                            Category Manage
+                        </a>
+                    </li>
+                @endcan
+
+            </ul>
+        </li>
+    @endcan
+    {{-- inventory end --}}
 
     {{-- applications start --}}
     <li class="menu-title" role="presentation" data-lang="hr-title-applications">Applications</li>
@@ -63,7 +112,7 @@
                     data-lang="hr-basic-table">Profile Settings</a>
             </li>
 
-        </ul>
+        </ul>   
     </li>
     {{-- end system setting --}}
 </ul>

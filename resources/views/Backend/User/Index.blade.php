@@ -6,6 +6,8 @@
 @section('pagetitle', 'Users')
 @section('buttonTitle', '+ New User')
 @section('buttonLink', route('user.create'))
+@section('buttonDrawer', 'true')
+@section('buttonDrawerTitle', 'Add New User')
 
 @section('content')
 
@@ -41,11 +43,13 @@
                 },
                 {
                     data: 'first_name',
-                    name: 'first_name'
+                    name: 'first_name',
+                    defaultContent: '—'
                 },
                 {
                     data: 'last_name',
-                    name: 'last_name'
+                    name: 'last_name',
+                    defaultContent: '—'
                 },
                 {
                     data: 'name',
@@ -55,75 +59,25 @@
                     data: 'email',
                     name: 'email'
                 },
-                // {
-                //     data: 'image',
-                //     name: 'image',
-                //     orderable: false,
-                //     searchable: false
-                // },
-                // {
-                //     data: 'email_verified_at',
-                //     name: 'email_verified_at'
-                // },
-                // {
-                //     data: 'phone',
-                //     name: 'phone'
-                // },
-                // {
-                //     data: 'date_of_birth',
-                //     name: 'date_of_birth'
-                // },
-                // {
-                //     data: 'gender',
-                //     name: 'gender'
-                // },
-                // {
-                //     data: 'address',
-                //     name: 'address'
-                // },
-                // {
-                //     data: 'city',
-                //     name: 'city'
-                // },
-                // {
-                //     data: 'state',
-                //     name: 'state'
-                // },
-                // {
-                //     data: 'country',
-                //     name: 'country'
-                // },
-                // {
-                //     data: 'postal_code',
-                //     name: 'postal_code'
-                // },
-                // {
-                //     data: 'status',
-                //     name: 'status',
-                //     orderable: false,
-                //     searchable: false
-                // },
                 {
                     data: 'roles',
                     name: 'roles',
                     orderable: false,
                     searchable: false
                 },
-                // {
-                //     data: 'created_at',
-                //     name: 'created_at'
-                // },
-                // {
-                //     data: 'updated_at',
-                //     name: 'updated_at'
-                // },
                 {
                     data: 'action',
                     name: 'action',
                     orderable: false,
                     searchable: false
                 }
-            ]);
+            ], {
+                buttonHtml: `<a href="{{ route('user.create') }}" class="btn btn-primary btn-sm" data-drawer="true" data-drawer-title="Add New User">+ New User</a>`,
+                fixedColumns: {
+                    left: 0,
+                    right: 1
+                }
+            });
 
             @if (session('success'))
                 showToast('{{ session('success') }}');
