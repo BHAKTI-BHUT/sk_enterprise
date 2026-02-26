@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\SystemSettingController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,6 +60,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/{category}/edit', [CategoryController::class, 'edit'])->name('edit');
             Route::put('/{category}', [CategoryController::class, 'update'])->name('update');
             Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('destroy');
+        });
+
+        // Customer Management
+        Route::prefix('customer')->name('customer.')->group(function () {
+            Route::get('/', [CustomerController::class, 'index'])->name('index');
+            Route::get('/ledger', [CustomerController::class, 'ledger'])->name('ledger');
+            Route::get('/create', [CustomerController::class, 'create'])->name('create');
+            Route::post('/', [CustomerController::class, 'store'])->name('store');
+            Route::get('/{customer}', [CustomerController::class, 'show'])->name('show');
+            Route::get('/{customer}/edit', [CustomerController::class, 'edit'])->name('edit');
+            Route::put('/{customer}', [CustomerController::class, 'update'])->name('update');
+            Route::delete('/{customer}', [CustomerController::class, 'destroy'])->name('destroy');
+            Route::post('/{customer}/toggle-status', [CustomerController::class, 'toggleStatus'])->name('toggle-status');
         });
 
         // Role Management

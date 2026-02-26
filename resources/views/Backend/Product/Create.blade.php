@@ -10,8 +10,11 @@
     <div class="row g-4">
         <div class="col-12">
             <div class="card h-100 mb-0">
-                <div class="card-header">
+                <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="card-title mb-0">Add New Product</h5>
+                    <a href="{{ route('product.index') }}" class="btn btn-sm btn-secondary">
+                        <i class="ri-arrow-left-line align-bottom me-1"></i> Back to List
+                    </a>
                 </div>
                 <div class="card-body">
                     <div id="drawer-form-content">
@@ -101,7 +104,7 @@
 
                                 <div class="col-12 text-end">
                                     <button type="submit" class="btn btn-primary px-4">Save Product</button>
-                                    <button type="button" class="btn btn-secondary px-4">Cancel</button>
+                                    <a href="{{ route('product.index') }}" class="btn btn-secondary px-4">Cancel</a>
                                 </div>
                             </div>
                         </form>

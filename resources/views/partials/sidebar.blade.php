@@ -7,7 +7,7 @@
     @endphp
     <div class="app-sidebar-logo px-6">
         <a href="{{ route('dashboard') }}" class="d-flex align-items-center text-decoration-none">
-            {{-- <img height="35" class="me-2" alt="Logo" src="{{ asset($sidebarFavicon) }}"> --}}
+            <img height="35" class="me-2" alt="Logo" src="{{ asset($sidebarFavicon) }}">
             {{-- <span class="fs-4 fw-bold app-sidebar-logo-default">
                 <span style="color: #ed1c24;">SK</span> <span style="color: #212529;">Enterprise</span>
             </span> --}}

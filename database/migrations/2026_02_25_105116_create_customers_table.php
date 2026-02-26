@@ -13,6 +13,20 @@ return new class extends Migration
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->index();
+            $table->string('mobile')->unique()->index();
+            $table->string('email')->nullable();
+            $table->string('gst_number')->nullable();
+            $table->text('address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('pincode', 10)->nullable();
+            $table->decimal('credit_limit', 15, 2)->default(0);
+            $table->decimal('opening_balance', 15, 2)->default(0);
+            $table->string('balance_type')->default('dr'); // dr, cr
+            $table->decimal('current_outstanding', 15, 2)->default(0);
+            $table->enum('status', ['active', 'inactive'])->default('active')->index();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

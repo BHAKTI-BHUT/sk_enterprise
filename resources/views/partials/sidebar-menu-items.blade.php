@@ -1,6 +1,7 @@
 @php
     $isUserManagementActive = request()->routeIs('user.*') || request()->routeIs('role.*');
     $isProductManagementActive = request()->routeIs('product.*');
+    $isCustomerManagementActive = request()->routeIs('customer.*');
     $isSystemSettingActive = request()->routeIs('settings.*') || request()->routeIs('profile.*');
 @endphp
 
@@ -62,6 +63,31 @@
         </li>
     @endcan
     {{-- inventory end --}}
+    
+    {{-- Customer Management start --}}
+    <li class="menu-title" role="presentation" data-lang="hr-title-customer">Customer Management</li>
+    <li class="slide {{ $isCustomerManagementActive ? 'active' : '' }}">
+        <a href="#!" class="side-menu__item {{ $isCustomerManagementActive ? 'active' : '' }}" role="menuitem">
+            <span class="side_menu_icon"><i class="ri-user-heart-line"></i></span>
+            <span class="side-menu__label" data-lang="hr-customers">Customer Management</span>
+            <i class="ri-arrow-down-s-line side-menu__angle"></i>
+        </a>
+        <ul class="slide-menu" role="menu">
+            <li class="slide">
+                <a href="{{ route('customer.index') }}"
+                    class="side-menu__item {{ request()->routeIs('customer.index') ? 'active' : '' }}" role="menuitem">
+                    Customer Manage
+                </a>
+            </li>
+            <li class="slide">
+                <a href="{{ route('customer.ledger') }}"
+                    class="side-menu__item {{ request()->routeIs('customer.ledger') ? 'active' : '' }}" role="menuitem">
+                    Customer Ledger
+                </a>
+            </li>
+        </ul>
+    </li>
+    {{-- Customer Management end --}}
 
     {{-- applications start --}}
     <li class="menu-title" role="presentation" data-lang="hr-title-applications">Applications</li>

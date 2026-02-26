@@ -215,6 +215,26 @@ $(document).ready(function () {
         });
     });
 
+    // --- GLOBAL STATUS TOGGLE ---
+    $(document).on('change', '.update-status', function () {
+        const $switch = $(this);
+        const url = $switch.data('url');
+
+        $.ajax({
+            url: url,
+            method: 'POST',
+            success: function (response) {
+                showToast(response.message || 'Status updated!');
+            },
+            error: function (xhr) {
+                // Revert switch on error
+                $switch.prop('checked', !$switch.prop('checked'));
+                var msg = (xhr.responseJSON && xhr.responseJSON.message) ? xhr.responseJSON.message : 'Failed to update status.';
+                showToast(msg, 'danger');
+            }
+        });
+    });
+
     // --- DRAWER HANDLING LOGIC ---
 
     const commonDrawer = document.getElementById('commonDrawer');
