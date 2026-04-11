@@ -16,6 +16,7 @@ class Product extends Model
         'stock_quantity',
         'min_stock_alert',
         'image',
+        'hsn_sac',
         'status',
         'created_by'
     ];

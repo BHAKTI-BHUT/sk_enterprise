@@ -89,6 +89,11 @@
                                         required>
                                     <div class="invalid-feedback">Please enter GST percentage.</div>
                                 </div>
+                                <div class="col-md-4">
+                                    <label for="hsn_sac" class="form-label">HSN/SAC Code</label>
+                                    <input type="text" class="form-control" id="hsn_sac" name="hsn_sac"
+                                        value="{{ $product->hsn_sac }}" placeholder="Enter HSN/SAC Code">
+                                </div>
 
                                 <div class="col-md-4">
                                     <label for="stock_quantity" class="form-label">Stock Quantity</label>

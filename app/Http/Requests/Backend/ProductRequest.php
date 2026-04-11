@@ -28,6 +28,7 @@ class ProductRequest extends FormRequest
             'purchase_price' => 'required|numeric|min:0',
             'selling_price' => 'required|numeric|min:0',
             'gst_percentage' => 'required|numeric|min:0|max:100',
+            'hsn_sac' => 'nullable|string|max:20',
             'stock_quantity' => 'required|integer|min:0',
             'min_stock_alert' => 'required|integer|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',

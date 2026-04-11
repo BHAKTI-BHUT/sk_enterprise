@@ -9,6 +9,8 @@ use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\CustomerController;
+use App\Http\Controllers\Backend\SupplierController;
+use App\Http\Controllers\Backend\SalesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,6 +75,29 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('/{customer}', [CustomerController::class, 'update'])->name('update');
             Route::delete('/{customer}', [CustomerController::class, 'destroy'])->name('destroy');
             Route::post('/{customer}/toggle-status', [CustomerController::class, 'toggleStatus'])->name('toggle-status');
+        });
+
+        // Supplier Management
+        Route::prefix('supplier')->name('supplier.')->group(function () {
+            Route::get('/', [SupplierController::class, 'index'])->name('index');
+            Route::get('/ledger', [SupplierController::class, 'ledger'])->name('ledger');
+            Route::get('/create', [SupplierController::class, 'create'])->name('create');
+            Route::post('/', [SupplierController::class, 'store'])->name('store');
+            Route::get('/{supplier}', [SupplierController::class, 'show'])->name('show');
+            Route::get('/{supplier}/edit', [SupplierController::class, 'edit'])->name('edit');
+            Route::put('/{supplier}', [SupplierController::class, 'update'])->name('update');
+            Route::delete('/{supplier}', [SupplierController::class, 'destroy'])->name('destroy');
+            Route::post('/{supplier}/toggle-status', [SupplierController::class, 'toggleStatus'])->name('toggle-status');
+        });
+
+        // Sales & Invoicing
+        Route::prefix('sales')->name('sales.')->group(function () {
+            Route::get('/', [SalesController::class, 'index'])->name('index');
+            Route::get('/create', [SalesController::class, 'create'])->name('create');
+            Route::post('/', [SalesController::class, 'store'])->name('store');
+            Route::get('/{id}', [SalesController::class, 'show'])->name('show');
+            Route::get('/{id}/email', [SalesController::class, 'sendEmail'])->name('email');
+            Route::get('/{id}/invoice', [SalesController::class, 'downloadInvoice'])->name('invoice'); // Placeholder for PDF
         });
 
         // Role Management

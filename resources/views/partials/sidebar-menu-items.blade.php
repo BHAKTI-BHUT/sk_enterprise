@@ -2,6 +2,7 @@
     $isUserManagementActive = request()->routeIs('user.*') || request()->routeIs('role.*');
     $isProductManagementActive = request()->routeIs('product.*');
     $isCustomerManagementActive = request()->routeIs('customer.*');
+    $isSupplierManagementActive = request()->routeIs('supplier.*');
     $isSystemSettingActive = request()->routeIs('settings.*') || request()->routeIs('profile.*');
 @endphp
 
@@ -64,6 +65,32 @@
     @endcan
     {{-- inventory end --}}
     
+    {{-- Sales Management start --}}
+    <li class="menu-title" role="presentation" data-lang="hr-title-sales">Sales & Invoicing</li>
+    <li class="slide {{ request()->routeIs('sales.*') ? 'active' : '' }}">
+        <a href="#!" class="side-menu__item {{ request()->routeIs('sales.*') ? 'active' : '' }}" role="menuitem">
+            <span class="side_menu_icon"><i class="ri-bill-line"></i></span>
+            <span class="side-menu__label" data-lang="hr-sales">Sales Management</span>
+            <i class="ri-arrow-down-s-line side-menu__angle"></i>
+        </a>
+        <ul class="slide-menu" role="menu">
+            <li class="slide">
+                <a href="{{ route('sales.index') }}"
+                    class="side-menu__item {{ request()->routeIs('sales.index') ? 'active' : '' }}" role="menuitem">
+                    Sales Manage
+                </a>
+            </li>
+            <li class="slide">
+                <a href="{{ route('sales.create') }}"
+                    class="side-menu__item {{ request()->routeIs('sales.create') ? 'active' : '' }}"
+                    role="menuitem">
+                    Create Invoice
+                </a>
+            </li>
+        </ul>
+    </li>
+    {{-- Sales Management end --}}
+
     {{-- Customer Management start --}}
     <li class="menu-title" role="presentation" data-lang="hr-title-customer">Customer Management</li>
     <li class="slide {{ $isCustomerManagementActive ? 'active' : '' }}">
@@ -81,13 +108,40 @@
             </li>
             <li class="slide">
                 <a href="{{ route('customer.ledger') }}"
-                    class="side-menu__item {{ request()->routeIs('customer.ledger') ? 'active' : '' }}" role="menuitem">
+                    class="side-menu__item {{ request()->routeIs('customer.ledger') ? 'active' : '' }}"
+                    role="menuitem">
                     Customer Ledger
                 </a>
             </li>
         </ul>
     </li>
     {{-- Customer Management end --}}
+
+    {{-- Supplier Management start --}}
+    <li class="menu-title" role="presentation" data-lang="hr-title-supplier">Supplier Management</li>
+    <li class="slide {{ $isSupplierManagementActive ? 'active' : '' }}">
+        <a href="#!" class="side-menu__item {{ $isSupplierManagementActive ? 'active' : '' }}" role="menuitem">
+            <span class="side_menu_icon"><i class="ri-truck-line"></i></span>
+            <span class="side-menu__label" data-lang="hr-suppliers">Supplier Management</span>
+            <i class="ri-arrow-down-s-line side-menu__angle"></i>
+        </a>
+        <ul class="slide-menu" role="menu">
+            <li class="slide">
+                <a href="{{ route('supplier.index') }}"
+                    class="side-menu__item {{ request()->routeIs('supplier.index') ? 'active' : '' }}" role="menuitem">
+                    Supplier Manage
+                </a>
+            </li>
+            <li class="slide">
+                <a href="{{ route('supplier.ledger') }}"
+                    class="side-menu__item {{ request()->routeIs('supplier.ledger') ? 'active' : '' }}"
+                    role="menuitem">
+                    Supplier Ledger
+                </a>
+            </li>
+        </ul>
+    </li>
+    {{-- Supplier Management end --}}
 
     {{-- applications start --}}
     <li class="menu-title" role="presentation" data-lang="hr-title-applications">Applications</li>
@@ -138,7 +192,7 @@
                     data-lang="hr-basic-table">Profile Settings</a>
             </li>
 
-        </ul>   
+        </ul>
     </li>
     {{-- end system setting --}}
 </ul>
