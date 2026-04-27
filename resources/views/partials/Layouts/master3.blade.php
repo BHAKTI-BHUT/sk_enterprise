@@ -34,6 +34,7 @@
     <main class="app-wrapper">
         <div class="app-container">
             @include('partials.breadcrumb')
+            @include('partials.alerts')
 
             <!-- end page title -->
 

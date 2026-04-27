@@ -4,7 +4,7 @@
         @php
             $footerText = \App\Models\Setting::get(
                 'footer_text',
-                'Design & Developed by <a href="https://thesparkbiz.com/" target="_blank">❤️SparkBizTech</a>.',
+                'Design & Developed by <a href="#" target="_blank">❤️Bhakti</a>.',
             );
         @endphp
         <p class="mb-0">

@@ -12,7 +12,9 @@ use App\Mail\SaleInvoiceMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Notifications\LowStockNotification;
+use Illuminate\Support\Facades\Notification;
 
 class SalesController extends Controller
 {
@@ -130,9 +132,22 @@ class SalesController extends Controller
 
                 // Update Stock
                 $product->decrement('stock_quantity', $item['quantity']);
+
+                // 3a. Check for Low Stock Notification
+                $product->refresh(); // Get updated stock
+                if ($product->stock_quantity <= $product->min_stock_alert) {
+                    $admin = User::role('admin')->first() ?? User::first();
+                    if ($admin) {
+                        Notification::send($admin, new LowStockNotification($product));
+                    }
+                }
             }
 
             // 4. Update Customer Ledger (Record the Sale as Debit)
+            $customer = Customer::find($request->customer_id);
+            $currentBalance = $customer->current_outstanding;
+            $balanceAfterSale = $currentBalance + $payableAmount;
+
             CustomerLedger::create([
                 'customer_id' => $request->customer_id,
                 'transaction_date' => $request->sale_date,
@@ -140,12 +155,13 @@ class SalesController extends Controller
                 'reference_no' => $invoiceNo,
                 'debit' => $payableAmount,
                 'credit' => 0,
-                'balance' => $payableAmount, // This logic depends on how balance is tracked in the system
+                'balance' => $balanceAfterSale,
                 'description' => 'Invoice No: ' . $invoiceNo,
             ]);
 
             // 5. If any amount was paid, update ledger again (Record Payment as Credit)
             if ($paidAmount > 0) {
+                $balanceAfterPayment = $balanceAfterSale - $paidAmount;
                 CustomerLedger::create([
                     'customer_id' => $request->customer_id,
                     'transaction_date' => $request->sale_date,
@@ -153,13 +169,12 @@ class SalesController extends Controller
                     'reference_no' => 'PAY-' . $invoiceNo,
                     'debit' => 0,
                     'credit' => $paidAmount,
-                    'balance' => 0, // Should be calculated
+                    'balance' => $balanceAfterPayment,
                     'description' => 'Payment received for ' . $invoiceNo,
                 ]);
             }
 
             // 6. Update Customer Outstanding
-            $customer = Customer::find($request->customer_id);
             $customer->increment('current_outstanding', $dueAmount);
 
             DB::commit();
