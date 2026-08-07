@@ -33,7 +33,7 @@ class SalesController extends Controller
     public function create()
     {
         $customers = Customer::where('status', 'active')->get();
-        $products = Product::where('status', 'active')->where('stock_quantity', '>', 0)->get();
+        $products = Product::with('brand')->where('status', 'active')->get();
         
         // Generate Invoice Number (Format: INV-2026-0001)
         $lastSale = Sale::orderBy('id', 'desc')->first();

@@ -76,7 +76,7 @@
                                                         data-price="{{ $product->selling_price }}" 
                                                         data-gst="{{ $product->gst_percentage }}" 
                                                         data-stock="{{ $product->stock_quantity }}">
-                                                        {{ $product->name }} ({{ $product->brand->name }})
+                                                        {{ $product->name }} {{ $product->brand ? '('.$product->brand->name.')' : '' }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -198,7 +198,7 @@
                                         data-price="{{ $product->selling_price }}" 
                                         data-gst="{{ $product->gst_percentage }}" 
                                         data-stock="{{ $product->stock_quantity }}">
-                                        {{ $product->name }} ({{ $product->brand->name }})
+                                        {{ $product->name }} {{ $product->brand ? '('.$product->brand->name.')' : '' }}
                                     </option>
                                 @endforeach
                             </select>
