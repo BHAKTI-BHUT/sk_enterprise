@@ -24,13 +24,16 @@ class PermissionTableSeeder extends Seeder
         // Create Permissions
         foreach ($modules as $module => $permissions) {
             foreach ($permissions as $permission) {
-                Permission::findOrCreate($permission);
+                Permission::firstOrCreate(['name' => $permission, 'guard_name' => 'web']);
             }
         }
 
+        // Reset cached permissions after creating them so Spatie reloads from database
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+
         // Create Roles and Assign Permissions
         foreach ($rolesConfig as $roleName => $assignedModules) {
-            $role = Role::findOrCreate($roleName);
+            $role = Role::firstOrCreate(['name' => $roleName, 'guard_name' => 'web']);
 
             $permissionsToAssign = [];
             foreach ($assignedModules as $moduleName) {

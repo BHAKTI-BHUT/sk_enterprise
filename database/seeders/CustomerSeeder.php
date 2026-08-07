@@ -169,18 +169,25 @@ class CustomerSeeder extends Seeder
 
                 $custData['current_outstanding'] = $current_outstanding;
 
-                $customer = Customer::create($custData);
+                $customer = Customer::updateOrCreate(
+                    ['mobile' => $custData['mobile']],
+                    $custData
+                );
 
                 if ($opening_bal > 0) {
-                    CustomerLedger::create([
-                        'customer_id' => $customer->id,
-                        'transaction_date' => now(),
-                        'transaction_type' => 'opening_balance',
-                        'debit' => $debit,
-                        'credit' => $credit,
-                        'balance' => $current_outstanding,
-                        'description' => 'Opening Balance (Seeded)'
-                    ]);
+                    CustomerLedger::updateOrCreate(
+                        [
+                            'customer_id' => $customer->id,
+                            'transaction_type' => 'opening_balance',
+                        ],
+                        [
+                            'transaction_date' => now(),
+                            'debit' => $debit,
+                            'credit' => $credit,
+                            'balance' => $current_outstanding,
+                            'description' => 'Opening Balance (Seeded)'
+                        ]
+                    );
                 }
             });
         }

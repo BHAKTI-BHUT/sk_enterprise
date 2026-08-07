@@ -128,7 +128,10 @@ class SupplierSeeder extends Seeder
         ];
 
         foreach ($suppliers as $supplierData) {
-            $this->supplierRepository->store($supplierData);
+            $existing = \App\Models\Supplier::where('mobile', $supplierData['mobile'])->first();
+            if (!$existing) {
+                $this->supplierRepository->store($supplierData);
+            }
         }
     }
 }
