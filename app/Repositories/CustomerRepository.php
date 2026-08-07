@@ -21,6 +21,11 @@ class CustomerRepository
     public function store(array $data)
     {
         return DB::transaction(function () use ($data) {
+            $data['credit_limit'] = $data['credit_limit'] ?? 0;
+            $data['opening_balance'] = $data['opening_balance'] ?? 0;
+            $data['balance_type'] = $data['balance_type'] ?? 'dr';
+            $data['status'] = $data['status'] ?? 'active';
+
             $customer = Customer::create($data);
 
             if (isset($data['opening_balance']) && $data['opening_balance'] > 0) {
@@ -48,8 +53,20 @@ class CustomerRepository
     public function update(Customer $customer, array $data)
     {
         return DB::transaction(function () use ($customer, $data) {
+            if (array_key_exists('credit_limit', $data) && is_null($data['credit_limit'])) {
+                $data['credit_limit'] = 0;
+            }
+            if (array_key_exists('opening_balance', $data) && is_null($data['opening_balance'])) {
+                $data['opening_balance'] = $customer->opening_balance ?? 0;
+            }
+            if (array_key_exists('balance_type', $data) && is_null($data['balance_type'])) {
+                $data['balance_type'] = $customer->balance_type ?? 'dr';
+            }
+            if (array_key_exists('status', $data) && is_null($data['status'])) {
+                $data['status'] = $customer->status ?? 'active';
+            }
+
             $customer->update($data);
-            // Future logic for outstanding calculation can be added here if needed
             return $customer;
         });
     }

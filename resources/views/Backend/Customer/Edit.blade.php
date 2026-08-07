@@ -101,7 +101,8 @@
                                         </div>
                                         <div class="col-4">
                                             <label for="balance_type" class="form-label">Type</label>
-                                            <select class="form-select select2" id="balance_type" name="balance_type" disabled>
+                                            <input type="hidden" name="balance_type" value="{{ $customer->balance_type }}">
+                                            <select class="form-select select2" id="balance_type" disabled>
                                                 <option value="dr" {{ $customer->balance_type == 'dr' ? 'selected' : '' }}>Dr</option>
                                                 <option value="cr" {{ $customer->balance_type == 'cr' ? 'selected' : '' }}>Cr</option>
                                             </select>

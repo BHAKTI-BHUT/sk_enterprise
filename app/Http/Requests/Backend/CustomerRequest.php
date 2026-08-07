@@ -14,6 +14,16 @@ class CustomerRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'credit_limit' => ($this->credit_limit !== null && $this->credit_limit !== '') ? $this->credit_limit : 0,
+            'opening_balance' => ($this->opening_balance !== null && $this->opening_balance !== '') ? $this->opening_balance : 0,
+            'balance_type' => $this->balance_type ?? 'dr',
+            'status' => $this->status ?? 'active',
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
