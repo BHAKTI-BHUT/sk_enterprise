@@ -12,6 +12,7 @@ use App\Mail\SaleInvoiceMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Notifications\LowStockNotification;
 use Illuminate\Support\Facades\Notification;
